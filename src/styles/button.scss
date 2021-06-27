@@ -20,9 +20,16 @@
   }
 
   &.outlined{
-    background: #FFFFFF;
     border: 1px solid #835afd;
     color: #835afd;
+    &.light{
+      background: #FFFFFF;
+    }
+  
+    &.dark{
+      background: #383838;
+    }
+
   }
 
   &:not(:disabled):hover {

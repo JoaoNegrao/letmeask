@@ -1,13 +1,16 @@
-import { FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
-import logoImg from "../assets/images/logo.svg";
+import logoBlk from "../assets/images/logoB.svg";
+import logoWhite from "../assets/images/logoW.svg"
 
 import { Button } from "../components/Button";
+import Switch from 'react-switch';
 import { Question } from "../components/Question";
 import { RoomCode } from "../components/RoomCode";
 import { useAuth } from "../hooks/useAuth";
 import { useRoom } from "../hooks/useRoom";
+import { useTheme } from "../hooks/useTheme";
 import { database } from "../services/firebase";
 
 import "../styles/room.scss";
@@ -23,6 +26,8 @@ export function Room() {
   const roomId = params.id;
 
   const { title, questions } = useRoom(roomId);
+  const [logoImg, setLogoImg] = useState('')
+  const {theme, toggleTheme} = useTheme();
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -61,18 +66,48 @@ export function Room() {
     }
   }
 
+  useEffect(() => {
+    if (theme === 'light') {
+        setLogoImg(logoBlk)
+    }
+    else {
+        setLogoImg(logoWhite) 
+    } 
+
+}, [theme])
+
   return (
-    <div id="page-room">
-      <header>
+    <div id="page-room" className={theme}>
+      <header className={theme}>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" />
+          <Link to="/">
+            <img src={logoImg} alt="Letmeask" />    
+          </Link>  
+          <div>
+          <Switch
+            onChange={toggleTheme}
+            checked = {theme === 'dark'}
+            height ={30}
+            width={50}
+            handleDiameter={30}
+            offColor= '#333'
+            onColor='#3f3f3f'
+            offHandleColor="#835afd"
+            onHandleColor="#835afd"
+            uncheckedIcon={false}
+            checkedIcon={false}
+            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"                  
+            className="Switch"           
+          />
           <RoomCode code={roomId} />
+          </div> 
         </div>
       </header>
 
       <main>
         <div className="room-title">
-          <h1>{title}</h1>
+          <h1 >{title}</h1>
           {questions.length > 0 && (
             <span>
               {questions.length} {questions.length > 1}Pergunta(s)
@@ -80,20 +115,21 @@ export function Room() {
           )}
         </div>
 
-        <form onSubmit={handleSendQuestion}>
+        <form onSubmit={handleSendQuestion} >
           <textarea
             placeholder="O que você quer perguntar?"
             onChange={(event) => setNewQuestion(event.target.value)}
             value={newQuestion}
+            className={theme}
           />
           <div className="form-footer">
             {user ? (
               <div className="user-info">
                 <img src={user.avatar} alt={user.name} />
-                <span>{user.name}</span>
+                <span className={theme}>{user.name}</span>
               </div>
             ) : (
-              <span>
+              <span className={theme}>
                 Para eviar uma pergunta, <button>faça o seu login</button>
               </span>
             )}

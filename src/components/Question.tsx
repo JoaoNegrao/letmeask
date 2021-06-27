@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import cx from 'classnames';
 
 import "../styles/question.scss";
+import { useTheme } from "../hooks/useTheme";
 
 type QuestionProps = {
   content: string;
@@ -21,13 +22,18 @@ export function Question({
   isHighlighted = false,
   children,
 }: QuestionProps) {
+
+  
+  const {theme} = useTheme();
+
   return (
     /*Utilizando o pacote "classname" para react.  O que simplifica muito a criacao de condicoes para aplicacao de classes e faz com que nao tenhamos que utilizar operadores ternarios. POr exemplo: `question ${isAnswered ? answered" : ""} ${ isHighlighted ? "highLighted" : ""}`*/
     <div
       className={cx(
-        'question',
+        'question' ,
         {answered: isAnswered},
         {highlighted: isHighlighted && !isAnswered},
+        theme
       )}
     >
       <p>{content}</p>

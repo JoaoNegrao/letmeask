@@ -3,6 +3,11 @@
   align-items: stretch;
   height: 100vh;
 
+  &.dark{
+    background: #333;
+    color: #f8f8f8;
+  }
+
   aside {
     flex: 7;
 
@@ -49,7 +54,7 @@
     max-width: 320px;
     align-items: stretch;
     text-align: center;
-
+      
     > img {
       align-self: center;
     }
@@ -57,7 +62,7 @@
 		h2{
 			font-size: 24px;
 			margin: 64px 0 24px;
-			font-family: 'Poppins' , sans-serif;
+			font-family: 'Poppins' , sans-serif;     
 		}
 
     form {
@@ -83,6 +88,10 @@
 			font-size: 14px;
 			color: #737380;
 			margin-top: 16px;
+
+      &.dark{
+        color: #f8f8f8;
+      }
 
 			a{
 				color: #e559f9;
@@ -140,4 +149,9 @@
       margin-left: 16px;
     }
   }
+}
+
+.Switch {
+  margin-top: 5px;
+  align-self: center;
 }
